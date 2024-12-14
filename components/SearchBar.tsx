@@ -34,29 +34,27 @@ const SearchBar = () => {
   };
 
   const updateSearchParams = (model: string, manufacturer: string) => {
-    // Create a new URLSearchParams object using the current URL search parameters
-    const searchParams = new URLSearchParams(window.location.search);
+    // Get the current query parameters using the useRouter hook
+    const currentParams = new URLSearchParams(window.location.search);
 
-    // Update or delete the 'model' search parameter based on the 'model' value
+    // Update the parameters based on the user input
     if (model) {
-      searchParams.set("model", model);
+      currentParams.set("model", model);
     } else {
-      searchParams.delete("model");
+      currentParams.delete("model");
     }
 
-    // Update or delete the 'manufacturer' search parameter based on the 'manufacturer' value
     if (manufacturer) {
-      searchParams.set("manufacturer", manufacturer);
+      currentParams.set("manufacturer", manufacturer);
     } else {
-      searchParams.delete("manufacturer");
+      currentParams.delete("manufacturer");
     }
 
-    // Generate the new pathname with the updated search parameters
+    // Update the URL by pushing the new query params
     const newPathname = `${
       window.location.pathname
-    }?${searchParams.toString()}`;
-
-    router.push(newPathname);
+    }?${currentParams.toString()}`;
+    router.push(newPathname); // Programmatic routing with Next.js router
   };
 
   return (
