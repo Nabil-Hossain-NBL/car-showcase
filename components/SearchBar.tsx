@@ -3,6 +3,7 @@
 import Image from "next/image";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+
 import SearchManufacturer from "./SearchManufacturer";
 
 const SearchButton = ({ otherClasses }: { otherClasses: string }) => (
@@ -34,27 +35,29 @@ const SearchBar = () => {
   };
 
   const updateSearchParams = (model: string, manufacturer: string) => {
-    // Get the current query parameters using the useRouter hook
-    const currentParams = new URLSearchParams(window.location.search);
+    // Create a new URLSearchParams object using the current URL search parameters
+    const searchParams = new URLSearchParams(window.location.search);
 
-    // Update the parameters based on the user input
+    // Update or delete the 'model' search parameter based on the 'model' value
     if (model) {
-      currentParams.set("model", model);
+      searchParams.set("model", model);
     } else {
-      currentParams.delete("model");
+      searchParams.delete("model");
     }
 
+    // Update or delete the 'manufacturer' search parameter based on the 'manufacturer' value
     if (manufacturer) {
-      currentParams.set("manufacturer", manufacturer);
+      searchParams.set("manufacturer", manufacturer);
     } else {
-      currentParams.delete("manufacturer");
+      searchParams.delete("manufacturer");
     }
 
-    // Update the URL by pushing the new query params
+    // Generate the new pathname with the updated search parameters
     const newPathname = `${
       window.location.pathname
-    }?${currentParams.toString()}`;
-    router.push(newPathname); // Programmatic routing with Next.js router
+    }?${searchParams.toString()}`;
+
+    router.push(newPathname);
   };
 
   return (
